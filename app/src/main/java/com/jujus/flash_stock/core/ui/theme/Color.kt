@@ -1,4 +1,4 @@
-package com.jujus.flash_stock.ui.theme
+package com.jujus.flash_stock.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

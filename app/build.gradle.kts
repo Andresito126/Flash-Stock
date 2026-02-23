@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.jetbrainsKotlinSerialization)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -38,6 +39,11 @@ android {
         compose = true
         buildConfig = true
         resValues = true
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        }
     }
 }
 ksp {
