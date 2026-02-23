@@ -2,4 +2,10 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.compose) apply false
+    //installed by me
+    alias(libs.plugins.kotlin.android) apply false // por compatibilidad
+    alias(libs.plugins.hilt.android) apply false
+    alias(libs.plugins.devtools.ksp) apply false
+    alias(libs.plugins.jetbrainsKotlinSerialization) apply false
+
 }
