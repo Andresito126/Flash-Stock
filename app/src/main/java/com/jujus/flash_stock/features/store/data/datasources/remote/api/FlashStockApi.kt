@@ -20,9 +20,9 @@ interface FlashStockApi {
         @Body offer: CreateOfferDto
     ): GenericResponse
 
-    @PATCH("api/offers/{id}")
-    suspend fun deleteOffer(
-        @Path("id") offerId: String
+    @PATCH("api/offers/{id}/cancel")
+    suspend fun cancelOffer(
+        @Path("id") id: String
     ): GenericResponse
 
 }

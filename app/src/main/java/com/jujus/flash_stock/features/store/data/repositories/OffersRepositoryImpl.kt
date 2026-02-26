@@ -37,4 +37,18 @@ class OffersRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun cancelOffer(id: String): Result<Unit> {
+        return try {
+            val response = api.cancelOffer(id)
+            if (response.success) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception(response.message))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }

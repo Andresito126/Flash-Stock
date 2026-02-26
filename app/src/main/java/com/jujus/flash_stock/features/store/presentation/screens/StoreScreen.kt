@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,6 +40,24 @@ fun StoreScreen(
     }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.dismissDeleteDialog() },
+            title = { Text("¿Cancelar oferta?") },
+            text = { Text("Esta acción cambiará el estado a CANCELLED en la base de datos.") },
+            confirmButton = {
+                TextButton(onClick = { viewModel.confirmDelete() }) {
+                    Text("SÍ, CANCELAR", color = Color.Red)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.dismissDeleteDialog() }) {
+                    Text("VOLVER")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = { FlashHeader() },
@@ -69,12 +89,16 @@ fun StoreScreen(
 
             items(uiState.offer) { offer ->
                 OfferCard(
+                    id = offer.id,
                     title = offer.name,
                     status = offer.status,
                     stock = offer.stock,
                     price = offer.currentPrice.toString(),
                     url = offer.photoUrl ?: "https://via.placeholder.com/150",
-                    timeClose = offer.endTime
+                    timeClose = offer.endTime,
+                    onDeleteClick = { id ->
+                        viewModel.showConfirmDelete(id)
+                    }
                 )
             }
 

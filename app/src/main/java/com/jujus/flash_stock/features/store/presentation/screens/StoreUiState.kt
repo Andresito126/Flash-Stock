@@ -7,7 +7,9 @@ data class StoreUiState (
     val isLoading: Boolean = false,
     val offer: List<Offer> =emptyList(),
     val error: String? = null,
-    val isRefreshing: Boolean = false
+    val isRefreshing: Boolean = false,
+    val showDeleteDialog: Boolean = false,
+    val selectedOfferId: String? = null
 ) {
 
 }

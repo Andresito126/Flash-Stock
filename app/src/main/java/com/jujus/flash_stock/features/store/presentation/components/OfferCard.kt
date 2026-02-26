@@ -39,13 +39,30 @@ import coil.compose.AsyncImage
 
 @Composable
 fun OfferCard(
+    id: String,
     title: String = "Pack de Baguettes (3x)",
     status: String = "ACTIVA",
     stock: Int = 5,
     timeClose: String = "12:45",
     price: String = "105",
-    url : String = "https://via.placeholder.com/150"
+    url : String = "https://via.placeholder.com/150",
+    onDeleteClick: (String) -> Unit,
+
 ) {
+    val statusText = status.toStatusDisplay()
+
+    val statusContainerColor = when (status) {
+        "ACTIVE" -> Color(0xFFFFEBD2)
+        "CANCELLED" -> Color(0xFFFFEBEE)
+        else -> Color(0xFFE2E8F0)
+    }
+
+    val statusContentColor = when (status) {
+        "ACTIVE" -> Color(0xFFFF6D00)
+        "CANCELLED" -> Color(0xFFD32F2F)
+        else -> Color(0xFF475569)
+    }
+
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -81,13 +98,13 @@ fun OfferCard(
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Surface(
-                            color = Color(0xFFFFEBD2),
+                            color = statusContainerColor,
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
-                                text = status,
+                                text = statusText,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                color = Color(0xFFFF6D00),
+                                color = statusContentColor,
                                 style = MaterialTheme.typography.labelLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -157,7 +174,7 @@ fun OfferCard(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Surface(
-                    onClick = { /* TODO */ },
+                    onClick = { onDeleteClick(id) },
                     color = Color(0xFFFFEBEE),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.size(48.dp)
@@ -172,5 +189,14 @@ fun OfferCard(
                 }
             }
         }
+    }
+}
+fun String.toStatusDisplay(): String {
+    return when (this.uppercase()) {
+        "ACTIVE" -> "ACTIVA"
+        "SCHEDULED" -> "PROGRAMADA"
+        "CANCELLED" -> "CANCELADA"
+        "EXPIRED" -> "VENCIDA"
+        else -> this
     }
 }

@@ -51,7 +51,7 @@ fun StoreActionsSection(onCreateOfferClick: () -> Unit) {
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        "OFERTAS ACTIVAS",
+                        "OFERTAS",
                         modifier = Modifier.padding(8.dp),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge,
