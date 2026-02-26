@@ -10,6 +10,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.jujus.flash_stock.core.components.FlashBottomBar
 import com.jujus.flash_stock.core.components.FlashHeader
+import com.jujus.flash_stock.core.navigation.CreateOffer
 import com.jujus.flash_stock.features.store.presentation.components.OfferCard
 import com.jujus.flash_stock.features.store.presentation.components.StoreActionsSection
 import com.jujus.flash_stock.features.store.presentation.components.StoreDashboardHeader
@@ -31,11 +33,15 @@ fun StoreScreen(
     navController: NavHostController,
     viewModel: StoreScreenViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.loadOffers()
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = { FlashHeader() },
-        bottomBar = {  FlashBottomBar(navController)},
+        bottomBar = { FlashBottomBar(navController) },
         containerColor = Color(0xFFF5F7FA)
     ) { paddingValues ->
 
@@ -55,7 +61,9 @@ fun StoreScreen(
             }
 
             item {
-                StoreActionsSection()
+                StoreActionsSection(onCreateOfferClick = {
+                    navController.navigate(CreateOffer)
+                })
             }
 
 

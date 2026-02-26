@@ -140,7 +140,7 @@ fun OfferCard(
                     Text(
                         text = "$$price",
                         style = MaterialTheme.typography.headlineLarge,
-                        color = Color(0xFFFF4500), // Rojo/Naranja del precio
+                        color = Color(0xFFFF4500),
                         fontWeight = FontWeight.Black
                     )
                 }

@@ -24,10 +24,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StoreActionsSection() {
+fun StoreActionsSection(onCreateOfferClick: () -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
         Button(
-            onClick = {  },
+            onClick = {onCreateOfferClick()},
             modifier = Modifier.fillMaxWidth().height(56.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5722)),
             shape = RoundedCornerShape(16.dp)
@@ -58,13 +58,6 @@ fun StoreActionsSection() {
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Text(
-                    "HISTORIAL",
-                    modifier = Modifier.weight(1f).padding(8.dp),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Color.Gray
-                )
             }
         }
     }
