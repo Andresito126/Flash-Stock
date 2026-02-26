@@ -42,7 +42,7 @@ class CreateOfferViewModel @Inject constructor(
         val iPrice = state.initialPrice.toDoubleOrNull() ?: 0.0
         val mPrice = state.minPrice.toDoubleOrNull() ?: 0.0
 
-        val now = Instant.now()
+        val now = Instant.now().minus(1, ChronoUnit.MINUTES)
         val oneHourLater = now.plus(1, ChronoUnit.HOURS)
 
         if (mPrice >= iPrice) {
