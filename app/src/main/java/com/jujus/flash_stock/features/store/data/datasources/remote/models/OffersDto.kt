@@ -1,19 +1,20 @@
 package com.jujus.flash_stock.features.store.data.datasources.remote.models
 
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 
 data class OffersDto(
     val id: String,
-    @SerialName("store_id") val storeId: String,
-    @SerialName("category_id") val categoryId: String,
+    @SerializedName("store_id") val storeId: String,
+    @SerializedName("category_id") val categoryId: String,
     val name: String,
     val description: String,
-    @SerialName("photo_url") val photoUrl: String?,
-    @SerialName("initial_price") val initialPrice: Double,
-    @SerialName("min_price") val minPrice: Double,
-    @SerialName("current_price") val currentPrice: Double,
+    @SerializedName("photo_url") val photoUrl: String?,
+    @SerializedName("initial_price") val initialPrice: String,
+    @SerializedName("min_price") val minPrice: String,
+    @SerializedName("current_price") val currentPrice: String,
     val stock: Int,
-    @SerialName("start_time") val startTime: String,
-    @SerialName("end_time") val endTime: String,
+    @SerializedName("start_time") val startTime: String,
+    @SerializedName("end_time") val endTime: String,
     val status: String,
 )
