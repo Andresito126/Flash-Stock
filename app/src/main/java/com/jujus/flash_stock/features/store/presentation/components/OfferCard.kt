@@ -60,7 +60,7 @@ fun OfferCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                    model = "https://via.placeholder.com/150",
+                    model = url,
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
