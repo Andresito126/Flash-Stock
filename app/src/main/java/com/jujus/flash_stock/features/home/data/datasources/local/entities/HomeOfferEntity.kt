@@ -13,6 +13,7 @@ data class HomeOfferEntity(
     val description: String,
     val photoUrl: String?,
     val initialPrice: Double,
+    val minPrice: Double,
     val currentPrice: Double,
     val stock: Int,
     val endTime: String,

@@ -21,6 +21,7 @@ data class HomeOfferDto(
     val description: String,
     @SerializedName("photo_url") val photoUrl: String?,
     @SerializedName("initial_price") val initialPrice: String,
+    @SerializedName("min_price") val minPrice: String,
     @SerializedName("current_price") val currentPrice: String,
     val stock: Int,
     @SerializedName("end_time") val endTime: String,

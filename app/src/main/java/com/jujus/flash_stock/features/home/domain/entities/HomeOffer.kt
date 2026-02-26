@@ -2,6 +2,7 @@ package com.jujus.flash_stock.features.home.domain.entities
 
 data class HomeOffer(
     val id: String,
+    val storeId: String,
     val name: String,
     val description: String,
     val photoUrl: String?,
