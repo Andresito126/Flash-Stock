@@ -27,7 +27,10 @@ import com.jujus.flash_stock.features.store.presentation.components.StoreDashboa
 import com.jujus.flash_stock.features.store.presentation.viewmodels.StoreScreenViewModel
 
 @Composable
-fun StoreScreen(navController: NavHostController,viewModel: StoreScreenViewModel = hiltViewModel()) {
+fun StoreScreen(
+    navController: NavHostController,
+    viewModel: StoreScreenViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
