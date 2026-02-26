@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.jujus.flash_stock.core.navigation.NavigationWrapper
 import com.jujus.flash_stock.core.ui.theme.Flash_stockTheme
+import com.jujus.flash_stock.features.home.navigation.HomeNavGraph
 import com.jujus.flash_stock.features.store.navigation.StoreNavGraph
 import com.jujus.flash_stock.features.store.presentation.screens.StoreScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,12 +26,13 @@ class MainActivity : ComponentActivity() {
 
         val navGraphs = listOf(
             StoreNavGraph(),
+            HomeNavGraph()
         )
 
 
         setContent {
             Flash_stockTheme {
-                NavigationWrapper(navGraphs = navGraphs)            }
+                NavigationWrapper(navGraphs = navGraphs)}
         }
     }
 }

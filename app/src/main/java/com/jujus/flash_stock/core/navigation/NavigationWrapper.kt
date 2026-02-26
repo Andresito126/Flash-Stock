@@ -13,7 +13,7 @@ fun NavigationWrapper(
 
     NavHost(
         navController = navController,
-        startDestination = Offers
+        startDestination = HomeRoute
     ){
         navGraphs.forEach { graph ->
             graph.registerNavGraph(this, navController)
