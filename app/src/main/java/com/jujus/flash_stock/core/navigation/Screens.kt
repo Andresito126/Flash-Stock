@@ -6,3 +6,6 @@ import kotlinx.serialization.Serializable
 object Home
 @Serializable
 object Offers
+
+@Serializable
+object LoginUser
