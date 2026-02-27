@@ -15,22 +15,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
+import com.jujus.flash_stock.core.components.FlashStockButton
+import com.jujus.flash_stock.core.components.FlashStockLogo
 import com.jujus.flash_stock.features.auth.presentation.components.*
-import com.jujus.flash_stock.features.auth.presentation.viewmodels.LoginAuthUserViewModel
-import com.jujus.flash_stock.core.components.*
+import com.jujus.flash_stock.features.auth.presentation.viewmodels.RegisterAuthUserViewModel
 
 @Composable
-fun LoginUserScreen(
-    onLoginSuccess: () -> Unit,
-    onNavigateToRegister: () -> Unit,
-    viewModel: LoginAuthUserViewModel = hiltViewModel()
+fun RegisterUserScreen(
+    onRegisterSuccess: () -> Unit,
+    onNavigateToLogin: () -> Unit,
+    viewModel: RegisterAuthUserViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(uiState.isLoginSuccessful) {
-        if (uiState.isLoginSuccessful) onLoginSuccess()
+    LaunchedEffect(uiState.isRegisterSuccessful) {
+        if (uiState.isRegisterSuccessful) onRegisterSuccess()
     }
 
     LaunchedEffect(uiState.error) {
@@ -50,9 +50,7 @@ fun LoginUserScreen(
                 )
             }
         },
-        bottomBar = {
-            SslBadge()
-        }
+        bottomBar = { SslBadge() }
     ) { innerPadding ->
 
         Column(
@@ -68,55 +66,40 @@ fun LoginUserScreen(
 
             FlashStockLogo()
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
-            LoginUserForm(
+            RoleSelector(
+                selectedRole = uiState.selectedRole,
+                onRoleChange = viewModel::onRoleChange
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            RegisterUserForm(
+                name = uiState.name,
                 email = uiState.email,
                 password = uiState.password,
                 error = uiState.error,
+                onNameChange = viewModel::onNameChange,
                 onEmailChange = viewModel::onEmailChange,
                 onPasswordChange = viewModel::onPasswordChange,
-                onForgotPasswordClick = { /* TODO */ }
+                phone = uiState.phone,
+                onPhoneChange = viewModel::onPhoneChange
             )
 
             Spacer(modifier = Modifier.height(28.dp))
 
             FlashStockButton(
-                text = "INICIAR SESIÓN  →",
-                onClick = viewModel::onLoginClick,
+                text = "CREAR CUENTA  →",
+                onClick = viewModel::onRegisterClick,
                 isLoading = uiState.isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            LoginUserFooter(onNavigateToRegister = onNavigateToRegister)
+            RegisterUserFooter(onNavigateToLogin = onNavigateToLogin)
 
             Spacer(modifier = Modifier.height(32.dp))
         }
-    }
-}
-
-@Composable
-fun SslBadge() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            imageVector = Icons.Default.Lock,
-            contentDescription = null,
-            tint = Color(0xFF6B7280),
-            modifier = Modifier.size(12.dp)
-        )
-        Spacer(modifier = Modifier.width(1.dp))
-        Text(
-            text = "CONEXIÓN SEGURA SSL",
-            color = Color(0xFF6B7280),
-            fontSize = 11.sp,
-            letterSpacing = 1.sp
-        )
     }
 }

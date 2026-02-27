@@ -5,7 +5,7 @@ data class AuthUserEntity (
     val name: String,
     val lastName: String,
     val email: String,
-    val password: String,
+    val password: String? = null,
     val phone: String,
     val isActive: Boolean,
 )

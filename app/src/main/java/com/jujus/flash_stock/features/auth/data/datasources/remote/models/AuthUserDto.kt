@@ -7,7 +7,7 @@ data class AuthUserDto(
     @SerializedName("name") val name: String,
     @SerializedName("last_name") val lastName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("password") val password: String,
+    @SerializedName("password") val password: String? = null,
     @SerializedName("phone") val phone: String,
     @SerializedName("is_active") val isActive: Boolean,
 )
@@ -31,7 +31,7 @@ data class RegisterUserRequest(
     @SerializedName("name") val name: String,
     @SerializedName("last_name") val lastName: String,
     @SerializedName("email") val email: String,
-    @SerializedName("password") val password: String,
+    @SerializedName("password") val password: String? = null,
     @SerializedName("phone") val phone: String,
     @SerializedName("is_active") val isActive: Boolean,
 )
