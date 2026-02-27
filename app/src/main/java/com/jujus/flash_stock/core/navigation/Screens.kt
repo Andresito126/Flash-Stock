@@ -8,3 +8,9 @@ object Home
 object Offers
 @Serializable
 object CreateOffer
+
+@Serializable
+object LoginUser
+
+@Serializable
+object RegisterUser
