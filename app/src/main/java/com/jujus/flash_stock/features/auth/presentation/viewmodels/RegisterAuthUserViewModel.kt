@@ -2,10 +2,10 @@ package com.jujus.flash_stock.features.auth.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jujus.flash_stock.core.components.AuthRole
 import com.jujus.flash_stock.features.auth.data.datasources.remote.models.RegisterUserRequest
 import com.jujus.flash_stock.features.auth.domain.usecases.UserRegisterUseCase
 import com.jujus.flash_stock.features.auth.presentation.screens.RegisterAuthUserUiState
-import com.jujus.flash_stock.features.auth.presentation.screens.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +33,7 @@ class RegisterAuthUserViewModel @Inject constructor(
         _uiState.update { it.copy(password = value, error = null) }
     }
 
-    fun onRoleChange(role: UserRole) {
+    fun onRoleChange(role: AuthRole) {
         _uiState.update { it.copy(selectedRole = role) }
     }
     fun onPhoneChange(value: String) {

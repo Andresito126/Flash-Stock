@@ -1,14 +1,13 @@
 package com.jujus.flash_stock.features.auth.presentation.screens
 
 import com.jujus.flash_stock.core.components.AuthRole
-import com.jujus.flash_stock.features.auth.domain.entities.AuthUserEntity
 
-
-data class LoginAuthUserUiState (
+data class LoginAuthStoreUiState(
     val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-    val selectedRole: AuthRole = AuthRole.COMPRADOR,
     val error: String? = null,
-    val isLoginSuccessful: Boolean = false
-)
+    val isLoginSuccessful: Boolean = false,
+    val selectedRole: AuthRole = AuthRole.TIENDA,
+
+    )

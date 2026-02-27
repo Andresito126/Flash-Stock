@@ -15,15 +15,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.jujus.flash_stock.features.auth.presentation.components.*
 import com.jujus.flash_stock.features.auth.presentation.viewmodels.LoginAuthUserViewModel
 import com.jujus.flash_stock.core.components.*
+
 
 @Composable
 fun LoginUserScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
+    onNavigateToStoreLogin: () -> Unit,
     viewModel: LoginAuthUserViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -35,6 +36,13 @@ fun LoginUserScreen(
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let { snackbarHostState.showSnackbar(it) }
+    }
+
+    LaunchedEffect(uiState.selectedRole) {
+        if (uiState.selectedRole == AuthRole.TIENDA) {
+            viewModel.onRoleChange(AuthRole.COMPRADOR)
+            onNavigateToStoreLogin()
+        }
     }
 
     Scaffold(
@@ -69,6 +77,14 @@ fun LoginUserScreen(
             FlashStockLogo()
 
             Spacer(modifier = Modifier.height(36.dp))
+
+            RoleSelector(
+                selectedRole = uiState.selectedRole,
+                onRoleChange = viewModel::onRoleChange
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
 
             LoginUserForm(
                 email = uiState.email,

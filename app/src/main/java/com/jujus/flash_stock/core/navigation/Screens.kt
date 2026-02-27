@@ -14,3 +14,5 @@ object LoginUser
 
 @Serializable
 object RegisterUser
+@Serializable
+object LoginStore

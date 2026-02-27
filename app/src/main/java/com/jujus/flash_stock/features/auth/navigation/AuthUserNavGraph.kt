@@ -5,9 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.jujus.flash_stock.core.navigation.FeatureNavGraph
 import com.jujus.flash_stock.core.navigation.Home
+import com.jujus.flash_stock.core.navigation.LoginStore
 import com.jujus.flash_stock.core.navigation.LoginUser
 import com.jujus.flash_stock.core.navigation.Offers
 import com.jujus.flash_stock.core.navigation.RegisterUser
+import com.jujus.flash_stock.features.auth.presentation.screens.LoginStoreScreen
 import com.jujus.flash_stock.features.auth.presentation.screens.LoginUserScreen
 import com.jujus.flash_stock.features.auth.presentation.screens.RegisterUserScreen
 
@@ -24,7 +26,10 @@ class AuthUserNavGraph: FeatureNavGraph {
                 },
                 onNavigateToRegister = {
                     navController.navigate(RegisterUser)
-                }
+                },
+                onNavigateToStoreLogin = {
+                    navController.navigate(LoginStore)
+                },
             )
         }
 
@@ -37,6 +42,22 @@ class AuthUserNavGraph: FeatureNavGraph {
                 },
                 onNavigateToLogin = {
                     navController.popBackStack()
+                }
+            )
+        }
+
+        navGraphBuilder.composable<LoginStore> {
+            LoginStoreScreen(
+                onLoginSuccess = {
+                    navController.navigate(Offers) {
+                        popUpTo<LoginStore> { inclusive = true }
+                    }
+                },
+                onNavigateToRegister = {  },
+                onNavigateToUserLogin = {
+                    navController.navigate(LoginUser) {
+                        popUpTo<LoginStore> { inclusive = true }
+                    }
                 }
             )
         }

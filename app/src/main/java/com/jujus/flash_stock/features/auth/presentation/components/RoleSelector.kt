@@ -8,19 +8,18 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Store
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jujus.flash_stock.features.auth.presentation.screens.UserRole
+import com.jujus.flash_stock.core.components.AuthRole
 
 @Composable
 fun RoleSelector(
-    selectedRole: UserRole,
-    onRoleChange: (UserRole) -> Unit,
+    selectedRole: AuthRole,
+    onRoleChange: (AuthRole) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -32,15 +31,15 @@ fun RoleSelector(
         RoleTab(
             label = "COMPRADOR",
             icon = Icons.Default.Person,
-            selected = selectedRole == UserRole.COMPRADOR,
-            onClick = { onRoleChange(UserRole.COMPRADOR) },
+            selected = selectedRole == AuthRole.COMPRADOR,
+            onClick = { onRoleChange(AuthRole.COMPRADOR) },
             modifier = Modifier.weight(1f)
         )
         RoleTab(
             label = "TIENDA",
             icon = Icons.Default.Store,
-            selected = selectedRole == UserRole.TIENDA,
-            onClick = { onRoleChange(UserRole.TIENDA) },
+            selected = selectedRole == AuthRole.TIENDA,
+            onClick = { onRoleChange(AuthRole.TIENDA) },
             modifier = Modifier.weight(1f)
         )
     }

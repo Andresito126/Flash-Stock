@@ -8,6 +8,9 @@ import com.jujus.flash_stock.features.auth.domain.entities.AuthToken
 import com.jujus.flash_stock.features.auth.domain.entities.AuthUserEntity
 import com.jujus.flash_stock.features.auth.domain.repositories.AuthRepository
 import com.jujus.flash_stock.features.auth.data.datasources.remote.mapper.toDomain
+import com.jujus.flash_stock.features.auth.data.datasources.remote.models.LoginStoreRequest
+import com.jujus.flash_stock.features.auth.data.datasources.remote.models.RegisterStoreRequest
+import com.jujus.flash_stock.features.auth.domain.entities.AuthStoreEntity
 import javax.inject.Inject
 
 class AuthUserRepositoryImpl @Inject constructor(
@@ -51,6 +54,58 @@ class AuthUserRepositoryImpl @Inject constructor(
         return try {
 
             val response = api.registerUser(user)
+
+            if (response.isSuccessful) {
+
+                val body = response.body()
+
+                if (body != null) {
+                    Result.success(body.toDomain())
+                } else {
+                    Result.failure(Exception("Empty response body"))
+                }
+
+            } else {
+                Result.failure(Exception("Register failed: ${response.code()}"))
+            }
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun loginStore(email: String, password: String): Result<AuthToken> {
+
+        return try {
+
+            val response = api.loginStore(LoginStoreRequest(email, password))
+
+            if (response.isSuccessful) {
+
+                val body = response.body()
+
+                if (body != null) {
+                    val token = body.toDomain()
+                    tokenManager.saveToken(token)
+                    Result.success(token)
+                } else {
+                    Result.failure(Exception("Empty response body"))
+                }
+
+            } else {
+                Result.failure(Exception("Login failed: ${response.code()}"))
+            }
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun registerStore(store: RegisterStoreRequest): Result<AuthStoreEntity> {
+
+        return try {
+
+            val response = api.registerStore(store)
 
             if (response.isSuccessful) {
 
