@@ -98,7 +98,8 @@ fun StoreScreen(
                     timeClose = offer.endTime,
                     onDeleteClick = { id ->
                         viewModel.showConfirmDelete(id)
-                    }
+                    },
+                    offerId = offer.id
                 )
             }
 

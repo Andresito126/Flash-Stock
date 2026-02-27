@@ -78,4 +78,10 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.socket.io.client) {
+        exclude(group = "org.json", module = "json")
+    }
 }

@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.jujus.flash_stock.core.navigation.Home
+import com.jujus.flash_stock.core.navigation.HomeRoute
 import com.jujus.flash_stock.core.navigation.Offers
 
 sealed class BottomBarItem<T : Any>(
@@ -12,10 +12,10 @@ sealed class BottomBarItem<T : Any>(
     val icon: ImageVector,
     val route: T
 ) {
-    object Explorar : BottomBarItem<Home>(
+    object Explorar : BottomBarItem<HomeRoute>(
         label = "Explorar",
         icon = Icons.Default.Home,
-        route = Home
+        route = HomeRoute
     )
     object MiTienda : BottomBarItem<Offers>(
         label = "Mi Tienda",
