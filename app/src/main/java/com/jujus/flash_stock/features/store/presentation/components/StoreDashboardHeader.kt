@@ -55,11 +55,6 @@ fun StoreDashboardHeader() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                StatCard("VENTAS HOY", "42", Icons.Default.ShoppingBag, Modifier.weight(1f))
-                Spacer(modifier = Modifier.width(12.dp))
-                StatCard("VENTA TOTAL", "$2,140", Icons.Default.TrendingUp, Modifier.weight(1f))
-            }
             Spacer(modifier = Modifier.height(30.dp))
         }
     }

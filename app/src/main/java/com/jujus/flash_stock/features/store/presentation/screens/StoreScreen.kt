@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.jujus.flash_stock.core.components.FlashBottomBar
 import com.jujus.flash_stock.core.components.FlashHeader
+import com.jujus.flash_stock.core.navigation.CreateOffer
 import com.jujus.flash_stock.features.store.presentation.components.OfferCard
 import com.jujus.flash_stock.features.store.presentation.components.StoreActionsSection
 import com.jujus.flash_stock.features.store.presentation.components.StoreDashboardHeader
@@ -31,11 +35,33 @@ fun StoreScreen(
     navController: NavHostController,
     viewModel: StoreScreenViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.loadOffers()
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.dismissDeleteDialog() },
+            title = { Text("¿Cancelar oferta?") },
+            text = { Text("Esta acción cambiará el estado a CANCELLED en la base de datos.") },
+            confirmButton = {
+                TextButton(onClick = { viewModel.confirmDelete() }) {
+                    Text("SÍ, CANCELAR", color = Color.Red)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.dismissDeleteDialog() }) {
+                    Text("VOLVER")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = { FlashHeader() },
-        bottomBar = {  FlashBottomBar(navController)},
+        bottomBar = { FlashBottomBar(navController) },
         containerColor = Color(0xFFF5F7FA)
     ) { paddingValues ->
 
@@ -55,18 +81,24 @@ fun StoreScreen(
             }
 
             item {
-                StoreActionsSection()
+                StoreActionsSection(onCreateOfferClick = {
+                    navController.navigate(CreateOffer)
+                })
             }
 
 
             items(uiState.offer) { offer ->
                 OfferCard(
+                    id = offer.id,
                     title = offer.name,
                     status = offer.status,
                     stock = offer.stock,
                     price = offer.currentPrice.toString(),
                     url = offer.photoUrl ?: "https://via.placeholder.com/150",
-                    timeClose = offer.endTime
+                    timeClose = offer.endTime,
+                    onDeleteClick = { id ->
+                        viewModel.showConfirmDelete(id)
+                    }
                 )
             }
 
