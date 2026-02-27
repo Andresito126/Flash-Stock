@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jujus.flash_stock.core.components.FieldLabel
 import com.jujus.flash_stock.core.components.FlashStockTextField
 
 @Composable

@@ -12,26 +12,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jujus.flash_stock.core.components.AuthRole
 import com.jujus.flash_stock.core.components.FlashStockButton
 import com.jujus.flash_stock.core.components.FlashStockLogo
 import com.jujus.flash_stock.features.auth.presentation.components.*
-import com.jujus.flash_stock.features.auth.presentation.viewmodels.RegisterAuthUserViewModel
+import com.jujus.flash_stock.features.auth.presentation.viewmodels.LoginAuthStoreViewModel
 
 @Composable
-fun RegisterUserScreen(
-    onRegisterSuccess: () -> Unit,
-    onNavigateToLogin: () -> Unit,
-    viewModel: RegisterAuthUserViewModel = hiltViewModel()
+fun LoginStoreScreen(
+    onLoginSuccess: () -> Unit,
+    onNavigateToRegister: () -> Unit,
+    onNavigateToUserLogin: () -> Unit,
+    viewModel: LoginAuthStoreViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(uiState.isRegisterSuccessful) {
-        if (uiState.isRegisterSuccessful) onRegisterSuccess()
+    LaunchedEffect(uiState.isLoginSuccessful) {
+        if (uiState.isLoginSuccessful) onLoginSuccess()
     }
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let { snackbarHostState.showSnackbar(it) }
+    }
+
+    // Navega a login de usuario cuando cambia el rol
+    LaunchedEffect(uiState.selectedRole) {
+        if (uiState.selectedRole == AuthRole.COMPRADOR) {
+            viewModel.onRoleChange(AuthRole.TIENDA) // resetea
+            onNavigateToUserLogin()
+        }
     }
 
     Scaffold(
@@ -63,8 +73,9 @@ fun RegisterUserScreen(
 
             FlashStockLogo()
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
+            // Arranca con TIENDA seleccionado
             RoleSelector(
                 selectedRole = uiState.selectedRole,
                 onRoleChange = viewModel::onRoleChange
@@ -72,29 +83,26 @@ fun RegisterUserScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            RegisterUserForm(
-                name = uiState.name,
+            LoginStoreForm(
                 email = uiState.email,
                 password = uiState.password,
                 error = uiState.error,
-                onNameChange = viewModel::onNameChange,
                 onEmailChange = viewModel::onEmailChange,
                 onPasswordChange = viewModel::onPasswordChange,
-                phone = uiState.phone,
-                onPhoneChange = viewModel::onPhoneChange
+                onForgotPasswordClick = { /* TODO */ }
             )
 
             Spacer(modifier = Modifier.height(28.dp))
 
             FlashStockButton(
-                text = "CREAR CUENTA  →",
-                onClick = viewModel::onRegisterClick,
+                text = "INICIAR SESIÓN  →",
+                onClick = viewModel::onLoginClick,
                 isLoading = uiState.isLoading
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            RegisterUserFooter(onNavigateToLogin = onNavigateToLogin)
+           // LoginStoreFooter(onNavigateToRegister = onNavigateToRegister)
 
             Spacer(modifier = Modifier.height(32.dp))
         }

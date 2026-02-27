@@ -23,7 +23,7 @@ import com.jujus.flash_stock.core.components.FieldLabel
 import com.jujus.flash_stock.core.components.FlashStockTextField
 
 @Composable
-fun LoginUserForm(
+fun LoginStoreForm(
     email: String,
     password: String,
     error: String?,
@@ -37,7 +37,7 @@ fun LoginUserForm(
 
     Column(modifier = modifier) {
 
-        FieldLabel(text = "EMAIL")
+        FieldLabel( text = "EMAIL DE LA TIENDA")
         Spacer(modifier = Modifier.height(8.dp))
         FlashStockTextField(
             value = email,
@@ -64,13 +64,13 @@ fun LoginUserForm(
                     contentPadding = PaddingValues(0.dp),
                     modifier = Modifier.padding(end = 20.dp)
                 ) {
-                /*Text(
-                        text = "CONTRASEÑA",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFFFF6B00),
-                        letterSpacing = 1.sp
-                    )*/
+                    /*Text(
+                            text = "CONTRASEÑA",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(0xFFFF6B00),
+                            letterSpacing = 1.sp
+                        )*/
                 }
             }
         }

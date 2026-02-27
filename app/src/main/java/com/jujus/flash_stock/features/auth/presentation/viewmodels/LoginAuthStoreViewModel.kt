@@ -3,7 +3,9 @@ package com.jujus.flash_stock.features.auth.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jujus.flash_stock.core.components.AuthRole
+import com.jujus.flash_stock.features.auth.domain.usecases.StoreLoginUseCase
 import com.jujus.flash_stock.features.auth.domain.usecases.UserLoginUseCase
+import com.jujus.flash_stock.features.auth.presentation.screens.LoginAuthStoreUiState
 import com.jujus.flash_stock.features.auth.presentation.screens.LoginAuthUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,16 +15,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginAuthUserViewModel @Inject constructor(
-    private val userLoginUseCase: UserLoginUseCase
+class LoginAuthStoreViewModel @Inject constructor(
+    private val storeLoginUseCase: StoreLoginUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LoginAuthUserUiState())
+    private val _uiState = MutableStateFlow(LoginAuthStoreUiState())
     val uiState = _uiState.asStateFlow()
 
     fun onEmailChange(value: String) {
         _uiState.update { it.copy(email = value, error = null) }
     }
+
     fun onRoleChange(role: AuthRole) {
         _uiState.update { it.copy(selectedRole = role) }
     }
@@ -42,7 +45,7 @@ class LoginAuthUserViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
 
-            val result = userLoginUseCase(state.email, state.password)
+            val result = storeLoginUseCase(state.email, state.password)
 
             result.fold(
                 onSuccess = {

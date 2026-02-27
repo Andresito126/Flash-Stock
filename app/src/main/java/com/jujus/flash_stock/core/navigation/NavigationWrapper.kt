@@ -7,15 +7,14 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun NavigationWrapper(
     navGraphs : List<FeatureNavGraph>,
-  //  startDestination: Any = LoginUser
+    startDestination: Any = LoginUser
 ){
 
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-//        startDestination = startDestination
-        startDestination = HomeRoute
+        startDestination = LoginUser
     ){
         navGraphs.forEach { graph ->
             graph.registerNavGraph(this, navController)

@@ -15,6 +15,9 @@ object LoginUser
 @Serializable
 object RegisterUser
 
+@Serializable
+object LoginStore
+
 
 @Serializable
 data class OfferDetailRoute(val offerId: String)
