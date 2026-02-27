@@ -9,3 +9,6 @@ object Offers
 
 @Serializable
 object LoginUser
+
+@Serializable
+object RegisterUser

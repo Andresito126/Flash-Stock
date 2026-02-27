@@ -3,16 +3,16 @@ package com.jujus.flash_stock.features.auth.presentation.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,22 +22,36 @@ import androidx.compose.ui.unit.sp
 import com.jujus.flash_stock.core.components.FlashStockTextField
 
 @Composable
-fun LoginUserForm(
+fun RegisterUserForm(
+    name: String,
     email: String,
     password: String,
     error: String?,
+    phone: String,
+    onPhoneChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onForgotPasswordClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val TextMuted = Color(0xFF6B7280)
     var passwordVisible by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.fillMaxWidth()) {
+
+        FieldLabel(text = "NOMBRE COMPLETO")
+        Spacer(modifier = Modifier.height(6.dp))
+        FlashStockTextField(
+            value = name,
+            onValueChange = onNameChange,
+            placeholder = "Ej: Juan Pérez",
+            leadingIcon = Icons.Default.Person,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         FieldLabel(text = "EMAIL")
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         FlashStockTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -46,36 +60,23 @@ fun LoginUserForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        CompositionLocalProvider(
-            LocalMinimumInteractiveComponentSize  provides 0.dp
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.height(8.dp))
-                FieldLabel(text = "CONTRASEÑA")
-                TextButton(
-                    onClick = onForgotPasswordClick,
-                    contentPadding = PaddingValues(0.dp),
-                    modifier = Modifier.padding(end = 20.dp)
-                ) {
-                /*Text(
-                        text = "CONTRASEÑA",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFFFF6B00),
-                        letterSpacing = 1.sp
-                    )*/
-                }
-            }
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        FieldLabel(text = "TELÉFONO")
+        Spacer(modifier = Modifier.height(6.dp))
+        FlashStockTextField(
+            value = phone,
+            onValueChange = onPhoneChange,
+            placeholder = "Ej: 1234567890",
+            leadingIcon = Icons.Default.Phone,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+        )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        FieldLabel(text = "CONTRASEÑA")
+        Spacer(modifier = Modifier.height(6.dp))
         FlashStockTextField(
             value = password,
             onValueChange = onPasswordChange,
@@ -94,7 +95,7 @@ fun LoginUserForm(
                         else
                             Icons.Default.VisibilityOff,
                         contentDescription = null,
-                        tint = TextMuted
+                        tint = Color(0xFF6B7280)
                     )
                 }
             }
@@ -111,16 +112,4 @@ fun LoginUserForm(
             )
         }
     }
-}
-
-@Composable
-fun FieldLabel(text: String) {
-    Text(
-        text = text,
-        fontSize = 11.sp,
-        fontWeight = FontWeight.SemiBold,
-        color = Color(0xFF6B7280),
-        letterSpacing = 1.sp,
-        modifier = Modifier.fillMaxWidth()
-    )
 }

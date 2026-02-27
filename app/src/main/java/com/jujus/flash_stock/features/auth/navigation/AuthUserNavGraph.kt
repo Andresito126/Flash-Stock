@@ -7,7 +7,9 @@ import com.jujus.flash_stock.core.navigation.FeatureNavGraph
 import com.jujus.flash_stock.core.navigation.Home
 import com.jujus.flash_stock.core.navigation.LoginUser
 import com.jujus.flash_stock.core.navigation.Offers
+import com.jujus.flash_stock.core.navigation.RegisterUser
 import com.jujus.flash_stock.features.auth.presentation.screens.LoginUserScreen
+import com.jujus.flash_stock.features.auth.presentation.screens.RegisterUserScreen
 
 class AuthUserNavGraph: FeatureNavGraph {
 
@@ -21,7 +23,20 @@ class AuthUserNavGraph: FeatureNavGraph {
                     }
                 },
                 onNavigateToRegister = {
-                    // TODO: navController.navigate(Register)
+                    navController.navigate(RegisterUser)
+                }
+            )
+        }
+
+        navGraphBuilder.composable<RegisterUser> {
+            RegisterUserScreen(
+                onRegisterSuccess = {
+                    navController.navigate(Offers) {
+                        popUpTo<RegisterUser> { inclusive = true }
+                    }
+                },
+                onNavigateToLogin = {
+                    navController.popBackStack()
                 }
             )
         }
