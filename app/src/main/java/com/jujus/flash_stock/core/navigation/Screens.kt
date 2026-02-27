@@ -10,4 +10,11 @@ object Offers
 object CreateOffer
 
 @Serializable
+object LoginUser
+
+@Serializable
+object RegisterUser
+
+
+@Serializable
 data class OfferDetailRoute(val offerId: String)
