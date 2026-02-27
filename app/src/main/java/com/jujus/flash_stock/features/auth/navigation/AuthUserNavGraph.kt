@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.jujus.flash_stock.core.navigation.FeatureNavGraph
-import com.jujus.flash_stock.core.navigation.Home
+import com.jujus.flash_stock.core.navigation.HomeRoute
 import com.jujus.flash_stock.core.navigation.LoginStore
 import com.jujus.flash_stock.core.navigation.LoginUser
 import com.jujus.flash_stock.core.navigation.Offers
@@ -20,7 +20,7 @@ class AuthUserNavGraph: FeatureNavGraph {
         navGraphBuilder.composable<LoginUser> {
             LoginUserScreen(
                 onLoginSuccess = {
-                    navController.navigate(Offers) {
+                    navController.navigate(HomeRoute) {
                         popUpTo<LoginUser> { inclusive = true }
                     }
                 },

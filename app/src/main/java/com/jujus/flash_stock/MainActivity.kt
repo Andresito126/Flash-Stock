@@ -35,7 +35,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Flash_stockTheme {
-                NavigationWrapper(navGraphs = navGraphs)}
+                NavigationWrapper(
+                    navGraphs = navGraphs,
+                    startDestination = LoginUser
+                )}
             }
 
         }
