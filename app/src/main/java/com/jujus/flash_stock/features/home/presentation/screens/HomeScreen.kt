@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +49,9 @@ fun HomeScreen(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-
+    LaunchedEffect(Unit) {
+        viewModel.refreshOffers()
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -85,6 +88,7 @@ fun HomeScreen(
                 ) {
                     state.offers.forEach { offer ->
                         FlashOfferCard(
+                            id = offer.id,
                             name = offer.name,
                             storeName = offer.storeName,
                             currentPrice = offer.currentPrice,

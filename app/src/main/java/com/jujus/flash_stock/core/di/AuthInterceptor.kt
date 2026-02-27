@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AuthInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJkNjRkOGJmLWE0OTQtNDkyOC04ZTNjLTM1ODMzZWMwOTdmMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcyMTEyNjI4LCJleHAiOjE3NzI3MTc0Mjh9.pqoRfjECTKHzNGAt_cEQWDqi4ReJusrqEJk6QvElrZ8"
+        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJhMzI2NDg0LTM3MTYtNDJmMS05NDYzLWU0NGE3MmQ3N2QwYyIsInJvbGUiOiJzdG9yZSIsImlhdCI6MTc3MjE1Nzc4MiwiZXhwIjoxNzcyNzYyNTgyfQ.jlMxf3R3mwP3Cs7myKPuko0h97Sj7xib2QEvyzH984Q"
 
         val requestWithToken = originalRequest.newBuilder()
             .header("Authorization", "Bearer $token")

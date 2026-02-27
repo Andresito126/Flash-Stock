@@ -1,6 +1,7 @@
 package com.jujus.flash_stock.features.home.domain.repositories
 
 import com.jujus.flash_stock.features.home.domain.entities.HomeOffer
+import com.jujus.flash_stock.features.home.domain.entities.OfferDetail
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
@@ -12,4 +13,9 @@ interface HomeRepository {
         city: String? = "Tuxtla Gutiérrez",
         categoryId: String? = null
     ): Result<Unit>
+
+    fun getOfferDetail(id: String): Flow<OfferDetail>
+    suspend fun listenToOfferUpdates(id: String)
+    suspend fun leaveOfferUpdates(id: String)
+
 }

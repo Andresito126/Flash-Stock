@@ -8,6 +8,7 @@ import com.jujus.flash_stock.core.navigation.FeatureNavGraph
 import com.jujus.flash_stock.core.navigation.HomeRoute
 import com.jujus.flash_stock.core.navigation.OfferDetailRoute
 import com.jujus.flash_stock.features.home.presentation.screens.HomeScreen
+import com.jujus.flash_stock.features.home.presentation.screens.OfferDetailScreen
 
 class HomeNavGraph : FeatureNavGraph {
 
@@ -24,7 +25,16 @@ class HomeNavGraph : FeatureNavGraph {
 
 
             composable<OfferDetailRoute> { backStackEntry ->
+
                 val args: OfferDetailRoute = backStackEntry.toRoute()
+
+
+                OfferDetailScreen(
+                    offerId = args.offerId,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
     }
