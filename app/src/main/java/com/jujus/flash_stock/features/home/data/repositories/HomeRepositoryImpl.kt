@@ -1,6 +1,7 @@
 package com.jujus.flash_stock.features.home.data.repositories
 
 
+import com.jujus.flash_stock.core.token.TokenManager
 import com.jujus.flash_stock.features.home.data.datasources.local.HomeOfferDao
 import com.jujus.flash_stock.features.home.data.datasources.remote.OfferSocketManager
 import com.jujus.flash_stock.features.home.data.datasources.remote.api.HomeApi
@@ -12,12 +13,14 @@ import com.jujus.flash_stock.features.home.domain.repositories.HomeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import com.jujus.flash_stock.features.home.domain.entities.OfferDetail
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
     private val api: HomeApi,
     private val dao: HomeOfferDao,
-    private val socketManager: OfferSocketManager
+    private val socketManager: OfferSocketManager,
+    private val tokenManager: TokenManager
 ) : HomeRepository {
 
     // la ui observa el slow que viene del rom, dond se hace ssto
@@ -49,9 +52,11 @@ class HomeRepositoryImpl @Inject constructor(
 
 //sockttt
 override fun getOfferDetail(id: String): Flow<OfferDetail> {
+
+
     return socketManager.observeOfferState(
         offerId = id,
-        userId = "22d64d8bf-a494-4928-8e3c-35833ec097f2"
+        userId = runBlocking { tokenManager.getUserId() ?: "invitado" }
     ).map { it.toDomain() }
 }
     override suspend fun listenToOfferUpdates(id: String) {

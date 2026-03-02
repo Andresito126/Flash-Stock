@@ -15,7 +15,7 @@ class OfferSocketManager @Inject constructor() {
     private var socket: Socket? = null
 
     fun connect() {
-        socket = IO.socket("http://192.168.100.34:3000")
+        socket = IO.socket("http://172.20.10.2:3000")
         socket?.connect()
     }
 

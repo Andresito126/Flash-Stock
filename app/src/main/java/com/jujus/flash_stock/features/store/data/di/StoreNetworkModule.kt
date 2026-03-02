@@ -1,5 +1,6 @@
 package com.jujus.flash_stock.features.store.data.di
 
+import com.jujus.flash_stock.core.di.AuthClient
 import com.jujus.flash_stock.core.di.AuthInterceptor
 import com.jujus.flash_stock.core.di.FlashStockRetrofit
 import com.jujus.flash_stock.features.store.data.datasources.remote.api.FlashStockApi
@@ -17,6 +18,7 @@ object StoreNetworkModule {
 
     @Provides
     @Singleton
+    @AuthClient
     fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)

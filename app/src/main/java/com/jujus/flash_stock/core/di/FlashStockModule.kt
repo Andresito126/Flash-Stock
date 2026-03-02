@@ -15,9 +15,10 @@ object FlashStockModule {
     @Provides
     @Singleton
     @FlashStockRetrofit
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit{
+    fun provideRetrofit(@AuthClient okHttpClient: OkHttpClient): Retrofit{
+
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.105:3000/")
+            .baseUrl("http://172.20.10.2:3000/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
