@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,64 +40,64 @@ import com.jujus.flash_stock.features.home.presentation.components.HomeCategorie
 import com.jujus.flash_stock.features.home.presentation.components.HomeOrangeHeader
 import com.jujus.flash_stock.features.home.presentation.viewmodels.HomeViewModel
 import com.jujus.flash_stock.features.store.presentation.viewmodels.StoreScreenViewModel
+import androidx.compose.material3.ExperimentalMaterial3Api
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onOfferClick: (String) -> Unit,
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.refreshOffers()
-    }
+    val isRefreshing = state.isLoading
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = { FlashHeader() },
         bottomBar = { FlashBottomBar(navController) },
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
+
+
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = { viewModel.refreshOffers() },
+            modifier = Modifier.padding(padding)
         ) {
-            item {
-                HomeOrangeHeader()
-            }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                item { HomeOrangeHeader() }
+                item { HomeCategoriesSection() }
 
-            item {
-                HomeCategoriesSection()
-            }
-
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("Ofertas en Vivo", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge)
-                    Text("VER TODO", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text("Ofertas en Vivo", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge)
+                        Text("VER TODO", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                    }
                 }
-            }
 
-            item {
-                FlowRow(
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    maxItemsInEachRow = 2
-                ) {
-                    state.offers.forEach { offer ->
-                        FlashOfferCard(
-                            id = offer.id,
-                            name = offer.name,
-                            storeName = offer.storeName,
-                            currentPrice = offer.currentPrice,
-                            initialPrice = offer.initialPrice,
-                            stock = offer.stock,
-                            photoUrl = offer.photoUrl,
-                            onNavigateToDetail = { onOfferClick(offer.id) }
-                        )
+                item {
+                    FlowRow(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        maxItemsInEachRow = 2
+                    ) {
+                        state.offers.forEach { offer ->
+                            FlashOfferCard(
+                                id = offer.id,
+                                name = offer.name,
+                                storeName = offer.storeName,
+                                currentPrice = offer.currentPrice,
+                                initialPrice = offer.initialPrice,
+                                stock = offer.stock,
+                                photoUrl = offer.photoUrl,
+                                onNavigateToDetail = { onOfferClick(offer.id) }
+                            )
+                        }
                     }
                 }
             }

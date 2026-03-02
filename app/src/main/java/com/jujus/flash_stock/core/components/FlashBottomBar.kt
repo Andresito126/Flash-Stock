@@ -8,6 +8,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -17,19 +18,27 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun FlashBottomBar(navController: NavController) {
-    val items = listOf(
-        BottomBarItem.Explorar,
-        BottomBarItem.MiTienda
-    )
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    val items = remember(currentDestination) {
+        when {
+            currentDestination?.hierarchy?.any { it.route?.contains("Offers") == true } == true -> {
+                listOf(BottomBarItem.MiTienda)
+            }
+            currentDestination?.hierarchy?.any { it.route?.contains("HomeRoute") == true } == true -> {
+                listOf(BottomBarItem.Explorar)
+            }
+            else -> listOf(BottomBarItem.Explorar, BottomBarItem.MiTienda)
+        }
+    }
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surface,
         tonalElevation = 8.dp
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-
         items.forEach { item ->
+            // Verificamos si el item actual está seleccionado
             val isSelected = currentDestination?.hierarchy?.any { destination ->
                 destination.route?.contains(item.route::class.qualifiedName.toString()) == true
             } == true
@@ -39,16 +48,13 @@ fun FlashBottomBar(navController: NavController) {
                     Icon(
                         imageVector = item.icon,
                         contentDescription = item.label,
-                        tint = if (isSelected) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
                     )
                 },
                 label = {
                     Text(
                         text = item.label,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.labelMedium
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
                     )
                 },
                 selected = isSelected,
@@ -60,10 +66,7 @@ fun FlashBottomBar(navController: NavController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.Transparent
-                )
+                }
             )
         }
     }
